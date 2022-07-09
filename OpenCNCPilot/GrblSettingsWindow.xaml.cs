@@ -160,52 +160,10 @@ namespace OpenCNCPilot
 			}
 		}
 
-		private void ButtonExport_Click(object sender, RoutedEventArgs e)
-		{
-			List<Tuple<int, double>> ToSend = new List<Tuple<int, double>>();
-			string fileOutput = "";
-
-			foreach (KeyValuePair<int, double> kvp in this.CurrentSettings)
-			{
-				double newval;
-
-				if (!double.TryParse(this.SettingsBoxes[kvp.Key].Text, System.Globalization.NumberStyles.Float, Util.Constants.DecimalParseFormat, out newval))
-				{
-					MessageBox.Show($"Value \"{this.SettingsBoxes[kvp.Key].Text}\" is invalid for Setting \"{Util.GrblCodeTranslator.Settings[kvp.Key].Item1}\"");
-					return;
-				}
-
-				fileOutput += $"${kvp.Key}={newval.ToString(Util.Constants.DecimalOutputFormat)}" + Environment.NewLine;
-			}
-
-			if ((bool)this.saveFileDialogSettings.ShowDialog())
-			{
-				System.IO.File.WriteAllText(this.saveFileDialogSettings.FileName, fileOutput);
-			}
-		}
-
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = true;
 			Hide();
-		}
-
-        private void ButtonImport_Click(object sender, RoutedEventArgs e)
-        {
-			if((bool)openFileDialogSettings.ShowDialog())
-            {
-				string fileName = openFileDialogSettings.FileName;
-
-				string[] settings = System.IO.File.ReadAllLines(fileName);
-
-				foreach (string setting in settings)
-                {
-					this.noupdate = true;
-					LineReceived(setting);
-					this.noupdate = false;
-				}
-			}
-
 		}
 
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
