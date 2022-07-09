@@ -1193,7 +1193,8 @@ namespace OpenCNCPilot.Communication
 			LastProbePosMachine = ProbePos;
 
 			ProbePos -= WorkOffset;
-
+			ProbePos.X += Properties.Settings.Default.ProbeOffsetX;
+			ProbePos.Y += Properties.Settings.Default.ProbeOffsetY;
 			LastProbePosWork = ProbePos;
 
 			bool ProbeSuccess = success.Value == "1";
